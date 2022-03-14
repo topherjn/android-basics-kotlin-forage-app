@@ -70,6 +70,11 @@ class ForageableListFragment : Fragment() {
         }
 
         // TODO: observe the list of forageables from the view model and submit it the adapter
+        viewModel.allForageables.observe(this.viewLifecycleOwner) { forageables ->
+            forageables.let {
+                adapter.submitList(it)
+            }
+        }
 
         binding.apply {
             recyclerView.adapter = adapter
