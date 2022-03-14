@@ -15,6 +15,7 @@
  */
 package com.example.forage.ui.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -35,10 +36,13 @@ class ForageableViewModel(
 ): ViewModel() {
 
     // TODO: create a property to set to a list of all forageables from the DAO
-
+    private var allForageables = forageableDao.getForageables()
 
     // TODO : create method that takes id: Long as a parameter and retrieve a Forageable from the
     //  database by id via the DAO.
+    fun getForageable(id: Long): LiveData<Forageable> {
+        return getForageable(id)
+    }
 
     fun addForageable(
         name: String,
@@ -73,6 +77,7 @@ class ForageableViewModel(
         )
         viewModelScope.launch(Dispatchers.IO) {
             // TODO: call the DAO method to update a forageable to the database here
+
         }
     }
 
@@ -89,3 +94,13 @@ class ForageableViewModel(
 
 // TODO: create a view model factory that takes a ForageableDao as a property and
 //  creates a ForageableViewModel
+class ForageableViewModelFactory(private val forageableDao: ForageableDao):
+        ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if(modelClass.isAssignableFrom(ForageableViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return ForageableViewModel(forageableDao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
