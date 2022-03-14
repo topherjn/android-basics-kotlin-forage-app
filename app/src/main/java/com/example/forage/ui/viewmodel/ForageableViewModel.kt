@@ -31,9 +31,11 @@ import kotlinx.coroutines.launch
 // TODO: pass a ForageableDao value as a parameter to the view model constructor
 class ForageableViewModel(
     // Pass dao here
+    forageableDao: ForageableDao
 ): ViewModel() {
 
     // TODO: create a property to set to a list of all forageables from the DAO
+
 
     // TODO : create method that takes id: Long as a parameter and retrieve a Forageable from the
     //  database by id via the DAO.
